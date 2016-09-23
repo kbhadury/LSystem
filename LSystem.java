@@ -11,6 +11,7 @@ public class LSystem{
 
     SketchPad canvas;
     DrawingTool pen;
+    double length;
 
     public static void main(String[] args){
         LSystem sys = new LSystem();
@@ -23,7 +24,6 @@ public class LSystem{
     public void getInput(){
         String start;
         int level;
-        double length;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -77,11 +77,11 @@ public class LSystem{
         pen.setWidth(2);
 
         //Let's go!
-        drawStr(start, level, length);
+        drawStr(start, level);
     }
 
     /*Draw the system based on the starting rule and recursion level*/
-    private void drawStr(String str, int level, double length){
+    private void drawStr(String str, int level){
         ArrayDeque<Double> stack = new ArrayDeque<Double>(); //For ] and [ operations
 
         for(int i=0; i<str.length(); ++i){
@@ -89,27 +89,30 @@ public class LSystem{
 
             //Perform appropriate action
             if(consts.indexOf(c) != -1){
-                if(c == '['){ //Save angle and position to stack
+                if(c == '['){ //Save pen info to stack
                     stack.push(pen.getXPos());
                     stack.push(pen.getYPos());
                     stack.push(pen.getDirection());
+                    stack.push((double)pen.getWidth());
                 } else if(c == ']'){ //Restore angle and position from stack
+                    double width = stack.pop();
                     double dir = stack.pop();
                     double y = stack.pop();
                     double x = stack.pop();
                     pen.up();
                     pen.move(x,y);
                     pen.setDirection(dir);
+                    pen.setWidth((int)width);
                     pen.down();
                 } else {
-                    doConstAction(c,length);
+                    doConstAction(c);
                 }
             } else if(vars.indexOf(c) != -1){
                 if(level == 0){ //No more recursion, execute directly
-                    doVarAction(length);
+                    doVarAction();
                 } else { //Replace with rule and recurse
                     String rule = getRule(c);
-                    drawStr(rule,level-1,length);
+                    drawStr(rule,level-1);
                 }
             } else {
                 System.out.println("Unknown character in drawStr: " + c);
@@ -118,23 +121,39 @@ public class LSystem{
         }
     }
 
-    private void doConstAction(char cons, double length){ //Apparently const is a keyword even though it's not used
+    private void doConstAction(char cons){ //Apparently const is a keyword even though it's not used
         switch(cons){
+            //Movement
             case '+': 
             pen.turnRight(angle); break;
             case '-':
             pen.turnLeft(angle); break;
             case 'F':
-            pen.forward(length); changePenColor(); break;
+            pen.forward(length); break;
             case 'M':
-            pen.up(); pen.forward(length); changePenColor(); pen.down(); break;
+            pen.up(); pen.forward(length); pen.down(); break;
+
+            //Pen
+            case '*':
+            changePenColor(); break;
+            case '"':
+            pen.setWidth(Math.min(100, pen.getWidth()+1)); break;
+            case '\'':
+            pen.setWidth(Math.max(1, pen.getWidth()-1)); break;
+
+            //Length
+            case '~':
+            length = length*2; break;
+            case '`':
+            length = length/2; break;
+
             default: 
             System.out.println("Unknown character in doConstAction: " + cons);
             System.exit(0);
         }
     }
 
-    private void doVarAction(double length){
+    private void doVarAction(){
         if(varsDraw){
             pen.forward(length);
             changePenColor();
