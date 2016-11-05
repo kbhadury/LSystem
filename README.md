@@ -2,6 +2,8 @@
 
 This program parses basic L-systems and draws their output using the gpdraw library.  See the "How to" section for instructions on how to use it.
 
+Latest update: now supports stochastic L-systems, in which multiple rules can be associated with one variable and one is chosen at random at each step.
+
 ###What are L-systems?
 An L-system (<https://en.wikipedia.org/wiki/L-system>) is a type of language with rules for rewriting itself.  Each system has an "alphabet" with variables and constants, an "axiom" (the starting point of the system), and a set of rules which modify the system.  
 
@@ -21,6 +23,8 @@ The program will prompt you for all the information it needs in order to create 
 * Start pattern: any string using variables and constants
 * Rules: comma-separated rules for each variable.  Rules start with a variable followed by '=' and a string of variables and constants
   * Example: B=BB, A=B[-A]+A
+* You can generate stochastic L-systems by providing multiple rules for each variable.  At each step one will be chosen at random.
+  * Example: Given variable F, we provide rules F=F[+F]F[-F]F, F=F[+F]F, F=F[-F]F
 * Turning angle: used by +/- to turn right/left this many degrees
 * Size: determines how far the pen moves (in pixels) on a "forward" instruction.  15 is usually a good number
 * Recursion level: how many times to use the rules to replace variables (see the example above).  The program limits itself to 10
@@ -34,7 +38,7 @@ These are the constants the program currently accepts:
 * ] : pop pen info from the stack
 
 ###Plans
-I might try to make a GUI version of this program so it isn't dependent on the gpdraw library.  Some L-systems also feature symbols to change the pen size/color, increase/decrease the line length, etc, and I'll play around with those a bit.  There also exist stochastic L-systems which incorporate probabilities into their rules.  For example, X has a 50% chance of being mapped to X+X and a 50% chance of being mapped to X-X.  This method is able to create very realistic-looking plants.
+I might try to make a GUI version of this program so it isn't dependent on the gpdraw library.  Some L-systems also feature symbols to change the pen size/color, increase/decrease the line length, etc, and I'll play around with those a bit.
 
 ###Sample L-systems
 Here are some fun L-systems to try out!
@@ -108,3 +112,9 @@ Recommended max recursion level is next to each name
 * Constants: + - [ ]
 * Start: X
 * Rules: X=F[+X]F[-X]+X, F=FF
+
+####Stochastic plant (4)
+* Variables: F
+* Constants: + - [ ]
+* Start: F
+* Rules: F=F[+F]F[-F]F, F=F[+F]F, F=F[-F]F
