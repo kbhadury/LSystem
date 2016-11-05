@@ -5,7 +5,7 @@ import java.awt.Color;
 
 public class LSystem{
     String vars, consts; //Each var/const is just one char
-    String[] rules;
+    RuleObj[] rules;
     double angle;
     boolean varsDraw = true; //Test if variables draw by default
 
@@ -65,7 +65,9 @@ public class LSystem{
         System.out.println("Drawing system...");
         canvas = new SketchPad(500,500);
         pen = new DrawingTool(canvas);
-
+        
+        //Start drawing
+        
         //Position pen (change this based on the fractal)
         pen.up();
         pen.move(-250,-50);
@@ -77,6 +79,15 @@ public class LSystem{
         pen.setWidth(2);
 
         //Let's go!
+        drawStr(start, level);
+        
+        //Draw a second fractal
+        pen.up();
+        pen.move(0,-50);
+        pen.setDirection(90);
+        pen.down();
+        pen.setColor(new Color(1,150,150));
+        pen.setWidth(2);
         drawStr(start, level);
     }
 
@@ -163,12 +174,13 @@ public class LSystem{
 
     /*Given a variable, return its corresponding rule*/
     private String getRule(char var){
-        if(vars.indexOf(var) == -1){
+        int varIndex = vars.indexOf(var);
+        if(varIndex == -1){
             System.out.println("Unknown character in getRule: " + var);
             System.exit(0);
             return null;
         } else {
-            return rules[vars.indexOf(var)];
+            return rules[varIndex].getRule();
         }
     }
 
@@ -208,9 +220,11 @@ public class LSystem{
      * X=X+X-X, Y=X+Y
      * with variables being a single character
      */
-    private String[] parseRuleInput(String input){
-        String[] result = new String[vars.length()];
+    private RuleObj[] parseRuleInput(String input){
+        RuleObj[] result = new RuleObj[vars.length()];
         String[] splitInput = input.split(", *"); //i.e. ["X=X+X-X","Y=X+Y"]
+
+        //For each rule in the input string
         for(int i=0; i<splitInput.length; ++i){
             String rule = splitInput[i];
 
@@ -223,11 +237,13 @@ public class LSystem{
 
             //Parse rule
             char var = rule.charAt(0); //Get variable
-            if(vars.indexOf(var) == -1){
+            int varIndex = vars.indexOf(var);
+            if(varIndex == -1){
                 System.out.println("Unmatched rule for var " + var);
                 System.exit(0);
             } else {
-                result[vars.indexOf(var)] = rule.substring(2); //Get string after "="
+                if(result[varIndex] == null) result[varIndex] = new RuleObj(); //Make sure it's initialized
+                result[varIndex].addRule(rule.substring(2)); //Get string after "="
             }
         }
         return result;
