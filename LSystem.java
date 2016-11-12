@@ -1,30 +1,26 @@
 import gpdraw.*;
 import java.util.Scanner;
 import java.util.ArrayDeque;
+import java.util.Random;
 import java.awt.Color;
 
 public class LSystem{
-    String vars, consts; //Each var/const is just one char
+    String vars, consts = "+-[]'\"~`*"; //Each var/const is just one char, initialize with defaults
     RuleObj[] rules;
-    double angle;
+    double angle, length;
+    String start;
+    int level;
     boolean varsDraw = true; //Test if variables draw by default
 
     SketchPad canvas;
     DrawingTool pen;
-    double length;
 
-    public static void main(String[] args){
-        LSystem sys = new LSystem();
-        sys.getInput();
-    }
+    Random rand = new Random();
 
     /* Get info about L-system from user:
      * Variables, constants, start pattern, rules, turning angle, forward length, recursion level
      */
     public void getInput(){
-        String start;
-        int level;
-
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("---Welcome to the L-System Renderer!---");
@@ -34,8 +30,9 @@ public class LSystem{
         vars = parseCharInput(scanner.nextLine(),false);
 
         //Constants are one char each (may/may not be alpha)
-        System.out.print("Enter constants (one char each, i.e. + -): ");
-        consts = parseCharInput(scanner.nextLine(),true);
+        System.out.println("Recognized constants are + - [ ] ' \" ~ ` *");
+        System.out.print("Enter constants F and M if you'll need them (i.e. F M): ");
+        consts += parseCharInput(scanner.nextLine(),true);
 
         //Starting pattern
         System.out.print("Enter starting pattern: ");
@@ -62,37 +59,28 @@ public class LSystem{
             scanner.nextLine();
         } while(level < 0 || level > 10);
 
-        System.out.println("Drawing system...");
         canvas = new SketchPad(500,500);
         pen = new DrawingTool(canvas);
-        
-        //Start drawing
-        
-        //Position pen (change this based on the fractal)
-        pen.up();
-        pen.move(-250,-50);
-        pen.setDirection(90);
-        pen.down();
-
-        //Set color and thickness
-        pen.setColor(new Color(1,150,150));
-        pen.setWidth(2);
-
-        //Let's go!
-        drawStr(start, level);
-        
-        //Draw a second fractal
-        pen.up();
-        pen.move(0,-50);
-        pen.setDirection(90);
-        pen.down();
-        pen.setColor(new Color(1,150,150));
-        pen.setWidth(2);
+    }
+    
+    public void draw(int x, int y, double dir, int width, Color color, int reps){
+        initPen(x, y, dir, width, color);
         drawStr(start, level);
     }
 
+    public void initPen(int x, int y, double dir, int width, Color color){
+        pen.up();
+        pen.move(x,y);
+        pen.setDirection(dir);
+        pen.down();
+
+        //Set color and thickness
+        pen.setColor(color);
+        pen.setWidth(width);
+    }
+
     /*Draw the system based on the starting rule and recursion level*/
-    private void drawStr(String str, int level){
+    public void drawStr(String str, int level){
         ArrayDeque<Double> stack = new ArrayDeque<Double>(); //For ] and [ operations
 
         for(int i=0; i<str.length(); ++i){
@@ -100,7 +88,8 @@ public class LSystem{
 
             //Perform appropriate action
             if(consts.indexOf(c) != -1){
-                if(c == '['){ //Save pen info to stack
+                if(c == '['){ //Save pen and length info to stack
+                    stack.push(length);
                     stack.push(pen.getXPos());
                     stack.push(pen.getYPos());
                     stack.push(pen.getDirection());
@@ -110,6 +99,7 @@ public class LSystem{
                     double dir = stack.pop();
                     double y = stack.pop();
                     double x = stack.pop();
+                    length = stack.pop();
                     pen.up();
                     pen.move(x,y);
                     pen.setDirection(dir);
@@ -159,6 +149,7 @@ public class LSystem{
             length = length/2; break;
 
             default: 
+            //This should really never happen
             System.out.println("Unknown character in doConstAction: " + cons);
             System.exit(0);
         }
