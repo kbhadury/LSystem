@@ -1,6 +1,8 @@
 # LSystem
 
-This program parses basic L-systems and draws their output using the gpdraw library.  See the "How to" section for instructions on how to use it.
+![Header] (https://github.com/kbhadury/LSystem/blob/master/Screenshots/Header.PNG)
+
+This program parses basic L-systems and draws their output using the gpdraw library.  See the ["How to"](https://github.com/kbhadury/LSystem/blob/master/README.md#how-to-use-this-program) section for instructions on how to use it.  See the ["Gallery"](https://github.com/kbhadury/LSystem/blob/master/README.md#gallery) section below for screenshots.
 
 Latest update: now supports stochastic L-systems, in which multiple rules can be associated with one variable and one is chosen at random at each step.  Added extra instructions to change pen attributes.
 
@@ -13,7 +15,7 @@ For example, consider a system where the variable 'F' means move forward, the co
 * Level 3: F+F−F−F+F + F+F−F−F+F − F+F−F−F+F − F+F−F−F+F + F+F−F−F+F (F is replaced in each occurrence of Level 2 according to the rule).  
 See the Wikipedia page for the associated images
 
-The self-repeating nature of L-systems makes them great for generating fractals.  Check out the samples below for some of the more popular ones.
+The self-repeating nature of L-systems makes them great for generating fractals.  You can find instructions below on how to make some of the more popular ones.
 
 ###How to use this program
 The program will prompt you for all the information it needs in order to create the system:
@@ -132,3 +134,24 @@ Recommended max recursion level is next to each name
 * Start: X
 * Rules: X=F-[[X]+X]+F[+FX]-X, F=FF, X=F[+X]F[-X]+X
 * Angle: 25
+
+###Gallery
+Dragon curve:
+
+![Dragon curve](https://github.com/kbhadury/LSystem/blob/master/Screenshots/DragonCurve.PNG)
+
+Sierpinski carpet:
+
+![Sierpinski carpet](https://github.com/kbhadury/LSystem/blob/master/Screenshots/Carpet.PNG)
+
+Snowflake:
+
+![Snowflake](https://github.com/kbhadury/LSystem/blob/master/Screenshots/Snowflake.PNG)
+
+Fractal plants:
+
+![Plant](https://github.com/kbhadury/LSystem/blob/master/Screenshots/Plant1.PNG)
+
+Stochasitc fractal plants:
+
+![Stochastic plant](https://github.com/kbhadury/LSystem/blob/master/Screenshots/Plant2.PNG)
