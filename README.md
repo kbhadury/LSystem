@@ -2,7 +2,7 @@
 
 This program parses basic L-systems and draws their output using the gpdraw library.  See the "How to" section for instructions on how to use it.
 
-Latest update: now supports stochastic L-systems, in which multiple rules can be associated with one variable and one is chosen at random at each step.  Added more constants to change pen.
+Latest update: now supports stochastic L-systems, in which multiple rules can be associated with one variable and one is chosen at random at each step.  Added extra instructions to change pen attributes.
 
 ###What are L-systems?
 An L-system (<https://en.wikipedia.org/wiki/L-system>) is a type of language with rules for rewriting itself.  Each system has an "alphabet" with variables and constants, an "axiom" (the starting point of the system), and a set of rules which modify the system.  
@@ -40,7 +40,7 @@ These are the constants the program currently accepts:
 * " : increase pen width
 * ~ : multiply length by 2
 * \` : divide length by 2
-* \* : force pen to change color
+* \* : change pen color (default is to change every time it moves forward)
 
 ###Plans
 I might try to make a GUI version of this program so it isn't dependent on the gpdraw library.
