@@ -127,7 +127,7 @@ public class LSystem{
             case '-':
             pen.turnLeft(angle); break;
             case 'F':
-            pen.forward(length); break;
+            pen.forward(length); changePenColor(); break;
             case 'M':
             pen.up(); pen.forward(length); pen.down(); break;
 
