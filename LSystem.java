@@ -1,7 +1,6 @@
 import gpdraw.*;
 import java.util.Scanner;
 import java.util.ArrayDeque;
-import java.util.Random;
 import java.awt.Color;
 
 public class LSystem{
@@ -14,8 +13,6 @@ public class LSystem{
 
     SketchPad canvas;
     DrawingTool pen;
-
-    Random rand = new Random();
 
     /* Get info about L-system from user:
      * Variables, constants, start pattern, rules, turning angle, forward length, recursion level
@@ -62,8 +59,8 @@ public class LSystem{
         canvas = new SketchPad(500,500);
         pen = new DrawingTool(canvas);
     }
-    
-    public void draw(int x, int y, double dir, int width, Color color, int reps){
+
+    public void draw(int x, int y, double dir, int width, Color color){
         initPen(x, y, dir, width, color);
         drawStr(start, level);
     }
