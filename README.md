@@ -2,7 +2,7 @@
 
 This program parses basic L-systems and draws their output using the gpdraw library.  See the "How to" section for instructions on how to use it.
 
-Latest update: now supports stochastic L-systems, in which multiple rules can be associated with one variable and one is chosen at random at each step.
+Latest update: now supports stochastic L-systems, in which multiple rules can be associated with one variable and one is chosen at random at each step.  Added more constants to change pen.
 
 ###What are L-systems?
 An L-system (<https://en.wikipedia.org/wiki/L-system>) is a type of language with rules for rewriting itself.  Each system has an "alphabet" with variables and constants, an "axiom" (the starting point of the system), and a set of rules which modify the system.  
@@ -36,9 +36,14 @@ These are the constants the program currently accepts:
 * M : move forward by length without drawing
 * [ : push pen info to the stack
 * ] : pop pen info from the stack
+* ' : decrease pen width
+* " : increase pen width
+* ~ : multiply length by 2
+* \` : divide length by 2
+* \* : force pen to change color
 
 ###Plans
-I might try to make a GUI version of this program so it isn't dependent on the gpdraw library.  Some L-systems also feature symbols to change the pen size/color, increase/decrease the line length, etc, and I'll play around with those a bit.
+I might try to make a GUI version of this program so it isn't dependent on the gpdraw library.
 
 ###Sample L-systems
 Here are some fun L-systems to try out!
@@ -111,10 +116,19 @@ Recommended max recursion level is next to each name
 * Variables: X F
 * Constants: + - [ ]
 * Start: X
-* Rules: X=F[+X]F[-X]+X, F=FF
+* Rules: X=F[+''X]F[-''X]+X, F=FF
+* Angle: 20
 
-####Stochastic plant (4)
+####Stochastic plant 1 (4)
 * Variables: F
 * Constants: + - [ ]
 * Start: F
-* Rules: F=F[+F]F[-F]F, F=F[+F]F, F=F[-F]F
+* Rules: F=F[+\`F]F[-\`F]F, F=F[+\`F]F, F=F[-\`F]F
+* Angle: 30
+
+####Stochastic plant 2 (4)
+* Variables: X F
+* Constants: + - [ ]
+* Start: X
+* Rules: X=F-[[X]+X]+F[+FX]-X, F=FF, X=F[+X]F[-X]+X
+* Angle: 25
