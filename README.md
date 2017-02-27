@@ -6,6 +6,8 @@ This program parses basic L-systems and draws their output using the gpdraw libr
 
 Latest update: now supports stochastic L-systems, in which multiple rules can be associated with one variable and one is chosen at random at each step.  Added extra instructions to change pen attributes.
 
+Check out the 3D version made with OpenGL!  [Project Hilbert](https://github.com/kbhadury/Hilbert)
+
 ###What are L-systems?
 An L-system (<https://en.wikipedia.org/wiki/L-system>) is a type of language with rules for rewriting itself.  Each system has an "alphabet" with variables and constants, an "axiom" (the starting point of the system), and a set of rules which modify the system.  
 
