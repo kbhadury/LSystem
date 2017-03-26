@@ -1,6 +1,9 @@
 # LSystem
 
-![Header] (https://github.com/kbhadury/LSystem/blob/master/Screenshots/Header.PNG)
+
+![Header][header]
+
+[header]: https://raw.githubusercontent.com/kbhadury/LSystem/master/Screenshots/Header.PNG
 
 This program parses basic L-systems and draws their output using the gpdraw library.  See the ["How to"](https://github.com/kbhadury/LSystem/blob/master/README.md#how-to-use-this-program) section for instructions on how to use it.  See the ["Gallery"](https://github.com/kbhadury/LSystem/blob/master/README.md#gallery) section below for screenshots.
 
